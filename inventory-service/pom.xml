@@ -12,7 +12,7 @@
 	<artifactId>inventory-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>inventory-service</name>
-	<description>Servicio para operaciones de inventario de autos.</description>
+	<description>Servicio para operaciones de inventario de autos</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
