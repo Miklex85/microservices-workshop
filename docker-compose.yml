@@ -1,0 +1,95 @@
+version: "3"
+services:
+  inventory:
+    container_name: inventory-db
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=workshop
+      - POSTGRES_PASSWORD=workshop
+      - POSTGRES_DB=inventory
+    ports:
+      - '2345:5432'
+    volumes: 
+      - inventory:/var/lib/postgresql/data
+  customers:
+    container_name: customers-db
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=workshop
+      - POSTGRES_PASSWORD=workshop
+      - POSTGRES_DB=customers
+    ports:
+      - '2346:5432'
+    volumes: 
+      - customers:/var/lib/postgresql/data
+  reservations:
+    container_name: reservations-db
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=workshop
+      - POSTGRES_PASSWORD=workshop
+      - POSTGRES_DB=reservations
+    ports:
+      - '2347:5432'
+    volumes: 
+      - reservations:/var/lib/postgresql/data
+  inventory-service:
+    container_name: inventory-service
+    image: miklex850/inventory-service:2.0
+    restart: on-failure
+    depends_on:
+      - inventory
+    ports:
+      - "8081:8081"
+    environment:
+      - INVENTORY_DB_HOST=inventory
+      - INVENTORY_DB_PORT=5432
+      - INVENTORY_DB_USER=workshop
+      - INVENTORY_DB_PASSWORD=workshop
+    links:
+      - inventory
+  customer-service:
+    container_name: customer-service
+    image: miklex850/customer-service:2.0
+    restart: on-failure
+    depends_on:
+      - customers
+    ports:
+      - "8080:8080"
+    environment:
+      - CUSTOMERS_DB_HOST=customers
+      - CUSTOMERS_DB_PORT=5432
+      - CUSTOMERS_DB_USER=workshop
+      - CUSTOMERS_DB_PASSWORD=workshop
+    links:
+      - customers
+  reservation-service:
+    container_name: reservations-service
+    image: miklex850/reservation-service:2.0
+    restart: on-failure
+    depends_on:
+      - reservations
+    ports:
+      - "8082:8082"
+    environment:
+      - RESERVATIONS_DB_HOST=reservations
+      - RESERVATIONS_DB_PORT=5432
+      - RESERVATIONS_DB_USER=workshop
+      - RESERVATIONS_DB_PASSWORD=workshop
+    links:
+      - reservations
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - 9090:16686
+volumes:
+  inventory:
+    driver: local
+  customers:
+    driver: local
+  reservations:
+    driver: local
