@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "${feign.customer-service.name}", url="${feign.customer-service.url}", configuration = RemoteClientConfig.class)
+@FeignClient(name = "${feign.customer-service.name}", url="${feign.customer-service.url}", configuration = RemoteClientConfig.class, fallback = CustomerServiceFallback.class)
 public interface CustomerServiceRemoteClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/cliente/{id}")

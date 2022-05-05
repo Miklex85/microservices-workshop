@@ -21,4 +21,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Object>(new ErrorDto(null, ex.getMessage()), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ ClientFallbackException.class })
+    public ResponseEntity<Object> handleClientFallbackException(ClientFallbackException ex, WebRequest request) {
+        return new ResponseEntity<Object>(new ErrorDto(null, ex.getMessage()), new HttpHeaders(), ex.getStatus());
+    }
+
 }

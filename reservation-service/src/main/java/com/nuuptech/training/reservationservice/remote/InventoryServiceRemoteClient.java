@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "${feign.inventory-service.name}", url="${feign.inventory-service.url}", configuration = RemoteClientConfig.class)
+@FeignClient(name = "${feign.inventory-service.name}", url="${feign.inventory-service.url}", configuration = RemoteClientConfig.class, fallback = InventoryServiceFallback.class)
 public interface InventoryServiceRemoteClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/vehiculo/{id}")

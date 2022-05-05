@@ -1,6 +1,7 @@
 package com.nuuptech.training.reservationservice.config;
 
 import com.nuuptech.training.reservationservice.exception.RemoteClientException;
+import feign.Client;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 
